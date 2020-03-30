@@ -1,9 +1,13 @@
 package cn.enilu.tool.database.doc.generator;
 
-import cn.enilu.tool.database.doc.generator.database.*;
-import org.nutz.dao.impl.SimpleDataSource;
-
 import java.util.Scanner;
+
+import cn.enilu.tool.database.doc.generator.database.Generator;
+import cn.enilu.tool.database.doc.generator.database.MySQL;
+import cn.enilu.tool.database.doc.generator.database.Oracle;
+import cn.enilu.tool.database.doc.generator.database.PostgreSQL;
+import cn.enilu.tool.database.doc.generator.database.SqlServer;
+import org.nutz.dao.impl.SimpleDataSource;
 
 /**
  * Main
@@ -15,8 +19,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("choose database:\n1:MySQL\n2:Oracle\n3:PostgreSQL\n4:SQLServer\n" +
-                "Select the appropriate numbers choose database type\n" +
-                "(Enter 'c' to cancel):\n ");
+            "Select the appropriate numbers choose database type\n" +
+            "(Enter 'c' to cancel):\n ");
         String dbType = sc.nextLine();
         if ("c".equals(dbType)) {
             System.exit(-1);
@@ -37,35 +41,31 @@ public class Main {
         }
         System.out.println("input host (default 127.0.0.1) :");
         String ip = sc.nextLine();
-        if("".equals(ip))
-        {
+        if ("".equals(ip)) {
             ip = "127.0.0.1";
         }
 
         System.out.println("input port (default " + getDefaultPort(dbType) + ") :");
         String port = sc.nextLine();
-        if("".equals(port))
-        {
+        if ("".equals(port)) {
             port = getDefaultPort(dbType);
         }
 
         System.out.println("input username (default " + getDefaultUser(dbType) + ") :");
         String username = sc.nextLine();
-        if("".equals(username))
-        {
+        if ("".equals(username)) {
             username = getDefaultUser(dbType);
         }
 
         System.out.println("input password (default 123456) :");
         String passowrd = sc.nextLine();
-        if("".equals(passowrd))
-        {
+        if ("".equals(passowrd)) {
             passowrd = "123456";
         }
 
         SimpleDataSource dataSource = new SimpleDataSource();
         if ("1".equals(dbType)) {
-            dataSource.setJdbcUrl("jdbc:mysql://" + ip + ":" + port + "/" + dbName);
+            dataSource.setJdbcUrl("jdbc:mysql://" + ip + ":" + port + "/" + dbName + "?useSSL=false");
         } else if ("2".equals(dbType)) {
             dataSource.setJdbcUrl("jdbc:oracle:thin:@" + ip + ":" + port + ":" + serviceName);
         } else if ("3".equals(dbType)) {
