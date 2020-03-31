@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style>
+
+    </style>
+</head>
+
+<body>
+<h1 style="text-align: center;font-family: '等线';">${dbName}数据库设计文档</h1>
+<h2 style="font-family: '等线';">表汇总</h2>
+<table style="border-collapse:collapse;border:none;" width="100%">
+
+    <thead>
+    <tr>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span>名称</span></p>
+        </td>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span>备注</span></p>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    <#list tables as item>
+    <tr>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span lang="EN-US">${item.table}</span></p>
+        </td>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span>${item.comment?default('')}</span></p>
+        </td>
+    </tr>
+    </#list>
+    </tbody>
+</table>
+<h2>表明细</h2>
+<#list tables as item>
+<br>
+<h2 style="font-family: '等线';" lang="EN-US">${item.table}</h2>
+<h3 style="font-family: '等线';">备注：${item.comment?default('')}</h3>
+<h3 style="font-family: '等线';">表结构：</h3>
+<table style="border-collapse:collapse;border:none;" width="100%">
+    <thead>
+    <tr>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span>字段名</span></p>
+        </td>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span>字段类型</span></p>
+        </td>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span>含义</span></p>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    <#list item.columns as column>
+    <tr style="border:solid #000 1px;">
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span lang="EN-US">${column.name}</span></p>
+        </td>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span lang="EN-US">${column.type}</span></p>
+        </td>
+        <td style="border:solid #000 1px;font-family: '等线';">
+            <p style="text-align:center"><span>${column.comment?default('')}</span></p>
+        </td>
+    </tr>
+    </#list>
+    </tbody>
+</table>
+</#list>
+
+</body>
+<style>
+    able {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+</html>

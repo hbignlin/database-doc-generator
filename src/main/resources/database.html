@@ -14,7 +14,7 @@
 <h2>表汇总</h2>
 <table width="100%">
 
-    <thead style="background-color: #b9c9fe;font-weight: bold;">
+    <thead>
     <tr>
         <td> 名称</td>
         <td>备注</td>
@@ -22,40 +22,48 @@
     </thead>
     <tbody>
     <#list tables as item>
-    <tr style="background-color: #e8edff;">
+    <tr>
         <td>${item.table}</td>
         <td>${item.comment?default('')}</td>
     </tr>
-    </#list>
+    </
+    #list>
     </tbody>
 </table>
 <h2>表明细</h2>
 <#list tables as item>
 <br>
 <h3>${item.comment?default('')}(${item.table})</h3>
-<table   width="100%">
-    <thead style="background-color: #b9c9fe;font-weight: bold;">
+<table style="border-collapse:collapse;border:none;" width="100%">
+    <thead>
     <tr>
-        <td>列名</td>
-        <td>类型</td>
-        <td>KEY</td>
-        <td>可否为空</td>
-        <td>注释</td>
+        <td style="border:solid #000 1px;">列名</td>
+        <td style="border:solid #000 1px;">类型</td>
+        <td style="border:solid #000 1px;">注释</td>
     </tr>
     </thead>
     <tbody>
     <#list item.columns as column>
-    <tr style="background-color: #e8edff;">
-        <td>${column.name}</td>
-        <td>${column.type}</td>
-        <td>${column.key?default('')}</td>
-        <td>${column.isNullable?default('')}</td>
-        <td>${column.comment?default('')}</td>
+    <tr style="border:solid #000 1px;">
+        <td style="border:solid #000 1px;">${column.name}</td>
+        <td style="border:solid #000 1px;">${column.type}</td>
+        <td style="border:solid #000 1px;">${column.comment?default('')}</td>
     </tr>
-    </#list>
+    </
+    #list>
     </tbody>
 </table>
-</#list>
+</
+#list>
 
 </body>
+<style>
+    able {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
 </html>

@@ -4,9 +4,6 @@ import java.util.Scanner;
 
 import cn.enilu.tool.database.doc.generator.database.Generator;
 import cn.enilu.tool.database.doc.generator.database.MySQL;
-import cn.enilu.tool.database.doc.generator.database.Oracle;
-import cn.enilu.tool.database.doc.generator.database.PostgreSQL;
-import cn.enilu.tool.database.doc.generator.database.SqlServer;
 import org.nutz.dao.impl.SimpleDataSource;
 
 /**
@@ -64,93 +61,14 @@ public class Main {
         }
 
         SimpleDataSource dataSource = new SimpleDataSource();
-        if ("1".equals(dbType)) {
-            dataSource.setJdbcUrl("jdbc:mysql://" + ip + ":" + port + "/" + dbName + "?useSSL=false");
-        } else if ("2".equals(dbType)) {
-            dataSource.setJdbcUrl("jdbc:oracle:thin:@" + ip + ":" + port + ":" + serviceName);
-        } else if ("3".equals(dbType)) {
-            dataSource.setJdbcUrl("jdbc:postgresql://" + ip + ":" + port + "/" + dbName);
-        } else if ("4".equals(dbType)) {
-            dataSource.setJdbcUrl("jdbc:sqlserver://" + ip + ":" + port + ";database=" + dbName);
-        }
+        String ip = "xxx";
+        String dbName = "gateway_3.1";
+        String port = "3306";
+        String username = "xxx";
+        dataSource.setJdbcUrl("jdbc:mysql://" + ip + ":" + port + "/" + dbName + "?useSSL=false");
         dataSource.setUsername(username);
-        dataSource.setPassword(passowrd);
-        Generator generator = null;
-        switch (dbType) {
-            case "1":
-                generator = new MySQL(dbName, dataSource);
-                break;
-            case "2":
-                generator = new Oracle(username, dataSource);
-                break;
-            case "3":
-                generator = new PostgreSQL(dbName, dataSource);
-                break;
-            case "4":
-                generator = new SqlServer(dbName, dataSource);
-            default:
-                System.out.println("not support database");
-                break;
-        }
-
+        dataSource.setPassword("xxx");
+        Generator generator = new MySQL(dbName, dataSource);
         generator.generateDoc();
-    }
-
-    private static String getDefaultPort(String dbType) {
-        String defaultPort = "";
-
-        switch (dbType) {
-            case "1": {
-                defaultPort = "3306";
-                break;
-            }
-            case "2": {
-                defaultPort = "1521";
-                break;
-            }
-            case "3": {
-                defaultPort = "5432";
-                break;
-            }
-            case "4": {
-                defaultPort = "1433";
-                break;
-            }
-            default: {
-                defaultPort = "-";
-                break;
-            }
-        }
-
-        return defaultPort;
-    }
-
-    private static String getDefaultUser(String dbType) {
-        String defaultUser = "";
-
-        switch (dbType) {
-            case "1": {
-                defaultUser = "root";
-                break;
-            }
-            case "2": {
-                defaultUser = "not support";
-                break;
-            }
-            case "3": {
-                defaultUser = "postgres";
-                break;
-            }
-            case "4": {
-                defaultUser = "sa";
-                break;
-            }
-            default: {
-                defaultUser = "-";
-                break;
-            }
-        }
-
-        return defaultUser;
     }
 }
