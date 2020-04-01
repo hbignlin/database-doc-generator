@@ -1,5 +1,9 @@
 package cn.enilu.tool.database.doc.generator.database;
 
+import java.io.File;
+import java.util.List;
+import java.util.Scanner;
+
 import cn.enilu.tool.database.doc.generator.bean.ColumnVo;
 import cn.enilu.tool.database.doc.generator.bean.TableVo;
 import cn.enilu.tool.database.doc.generator.doc.WordGenerator;
@@ -11,10 +15,6 @@ import org.nutz.dao.impl.SimpleDataSource;
 import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Files;
 import org.nutz.lang.Strings;
-
-import java.io.File;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Generator
@@ -54,9 +54,7 @@ public abstract class Generator {
             String dbType = sc.nextLine();
             if ("y".equals(dbType) || "".equals(dbType)) {
                 docDir.delete();
-            }
-            else
-            {
+            } else {
                 return;
             }
         } else {
@@ -65,7 +63,7 @@ public abstract class Generator {
         List<TableVo> list = getTableData();
         save2File(list);
         //保存word
-        WordGenerator.createDoc(dbName,list);
+        WordGenerator.createDoc(dbName, list);
 
     }
 
@@ -79,14 +77,14 @@ public abstract class Generator {
 
     private void saveSummary(List<TableVo> tables) {
         StringBuilder builder = new StringBuilder("# Summary").append("\r\n").append("* [Introduction](README.md)")
-                .append("\r\n");
+            .append("\r\n");
         for (TableVo tableVo : tables) {
             String name = Strings.isEmpty(tableVo.getComment()) ? tableVo.getTable() : tableVo.getComment();
             builder.append("* [" + name + "](" + tableVo.getTable() + ".md)").append("\r\n");
         }
         try {
             Files.write(new File(docPath + File
-                    .separator + "SUMMARY.md"), builder.toString());
+                .separator + "SUMMARY.md"), builder.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,15 +94,15 @@ public abstract class Generator {
         StringBuilder builder = new StringBuilder("# " + dbName + "数据库文档").append("\r\n");
         for (TableVo tableVo : tables) {
             builder.append("- [" + (Strings.isEmpty(tableVo.getComment()) ? tableVo.getTable() : tableVo.getComment())
-                    + "]" +
-                    "(" + tableVo
-                    .getTable() + ".md)")
-                    .append
-                            ("\r\n");
+                + "]" +
+                "(" + tableVo
+                .getTable() + ".md)")
+                .append
+                    ("\r\n");
         }
         try {
             Files.write(new File(docPath + File
-                    .separator + "README.md"), builder.toString());
+                .separator + "README.md"), builder.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,19 +111,22 @@ public abstract class Generator {
     private void saveTableFile(TableVo table) {
 
         StringBuilder builder = new StringBuilder("# " + (Strings.isBlank(table.getComment()) ? table.getTable() : table
-                .getComment()) + "(" + table.getTable() + ")").append("\r\n");
-        builder.append("| 列名   | 类型   | KEY  | 可否为空 | 注释   |").append("\r\n");
-        builder.append("| ---- | ---- | ---- | ---- | ---- |").append("\r\n");
+            .getComment()) + "(" + table.getTable() + ")").append("\r\n");
+        builder.append("| 列名   | 类型   | 注释   |").append("\r\n");
+        builder.append("| ---- | ---- | ---- |").append("\r\n");
         List<ColumnVo> columnVos = table.getColumns();
         for (int i = 0; i < columnVos.size(); i++) {
             ColumnVo column = columnVos.get(i);
-            builder.append("|").append(column.getName()).append("|").append(column.getType()).append("|").append
-                    (Strings.sNull(column.getKey())).append("|").append(column.getIsNullable()).append("|").append
-                    (column.getComment()).append("|\r\n");
+            builder.append("|")
+                .append(column.getName())
+                .append("|")
+                .append(column.getType())
+                .append("|").append
+                (column.getComment()).append("|\r\n");
         }
         try {
             Files.write(new File(docPath + File
-                    .separator + table.getTable() + ".md"), builder.toString());
+                .separator + table.getTable() + ".md"), builder.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

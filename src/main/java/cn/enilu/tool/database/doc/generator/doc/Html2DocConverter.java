@@ -1,9 +1,13 @@
 package cn.enilu.tool.database.doc.generator.doc;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
-import java.io.*;
 
 /**
  * Html2DocConverter
@@ -25,8 +29,7 @@ public class Html2DocConverter {
     /**
      * 读取html文件到word
      *
-     * @param filepath
-     *            html文件的路径
+     * @param filepath html文件的路径
      * @return
      * @throws Exception
      */
@@ -54,7 +57,7 @@ public class Html2DocConverter {
             POIFSFileSystem poifs = new POIFSFileSystem();
             DirectoryEntry directory = poifs.getRoot();
             directory.createDocument(
-                    "WordDocument", is);
+                "WordDocument", is);
 
             fos = new FileOutputStream(this.outputPath);
             poifs.writeFilesystem(fos);
@@ -75,8 +78,9 @@ public class Html2DocConverter {
 
         return false;
     }
+
     public static void main(String[] args) throws Exception {
 
-        new Html2DocConverter("G:/123.html" , "G:/temp5.doc").writeWordFile();
+        new Html2DocConverter("E:\\YFZX\\github\\database-doc-generator\\src\\main\\resources", "E:\\YFZX\\github\\database-doc-generator\\gateway.doc").writeWordFile();
     }
 }
